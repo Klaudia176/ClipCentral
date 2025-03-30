@@ -1,0 +1,144 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  </div>
+</div>
+</nav>
+
+
+<div id="cont" style="margin-top:30px" class="page-transition">
+
+
+<div style="width:40%; float:left; margin: 50px; height:auto; margin-bottom:30px; height:600px">
+<center>
+<h2><span class="badge pill" style="background-color:#5a005a; font-size:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= @video.title %></span><span class="badge pill text-bg-light" style=" font-size:11px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); margin-left:5px;">  <%= @video.created_at %></span></h2>
+<p><%= @video.description %></p>
+<video width="50%" controls style="border-radius:20px; border: 3px solid #c94bc9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+  <source src="<%= rails_blob_path(@video.uploaded_video, only_path: true) %>" type="video/mp4">
+  Twoja przeglądarka nie wspiera elementu wideo.
+</video>
+
+
+</center>
+</div>
+
+<div style="width:40%; float:left; margin: 50px; background-color:#C2DFFF; padding:10px; border-radius:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); position: relative; height: 610px; display: flex; flex-direction: column; justify-content: space-between;">
+
+
+<!-- Sekcja Komentarze -->
+<div style="flex-grow: 1; overflow-y: auto;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<h2><span class="badge pill" style="background-color:#5a005a; font-size:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">Komentarze 💬</span></h2>
+
+<% if current_user.premium? %>
+  <%= link_to 'Pobierz film 📥', download_video_path(@video), method: :get, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+<% end %>
+
+<% if current_user.admin? && @video.reports.any? %>
+  <%= button_to '❌ Usuń film', video_path(@video), method: :delete, data: { confirm: 'Czy na pewno chcesz usunąć ten film?' }, class: 'btn btn-danger', style: 'font-weight:600; font-size:16px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);'%>
+<% end %>
+</div>
+  <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  
+  <div id="comments-list">
+    <% @comments.each do |comment| %>
+      <div class="comment mt-2 d-flex align-items-center">
+        <strong style="margin-right:5px"><%= comment.user.name %>: </strong> <%= comment.content %>
+        <% if current_user.admin? %>
+          <%= button_to '❌', video_comment_path(@video, comment), method: :delete, data: { confirm: 'Czy na pewno chcesz usunąć ten komentarz?' }, class: 'btn btn-sm' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  
+  
+  
+  <% if current_user.premium? || current_user.standard? %>
+    <%= form_with(model: [@video, @comment], local: true) do |form| %>
+      <div class="form-group d-flex align-items-center">
+        <%= form.text_area :content, class: 'form-control', placeholder: 'Dodaj komentarz...', rows: 1, style: "width:86%" %>
+        <%= form.submit 'Wyślij', class: 'btn', style:'margin-left:5px; background-color: #ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); float:right' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<% if current_user.admin? && @video.reports.any? %>
+  <h2><span class="badge pill" style="background-color:#5a005a; font-size:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">Zgłoszenia tego filmu 🚨</span></h2>
+  <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  
+  <div style="max-height: 300px; overflow-y: auto; padding-right: 10px;">
+    <% @video.reports.each do |report| %>
+      <div class="report mt-2 d-flex align-items-center justify-content-between" style="border: 1px solid #c94bc9; padding: 10px; border-radius: 10px; background-color: #ffcde3; margin-bottom:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+        <div>
+          <strong>Zgłoszone przez:</strong> <%= report.user.name %><br>
+          <strong>Powód:</strong> <%= report.reason %>
+        </div>
+        <div>
+          <%= button_to '❌ Usuń zgłoszenie', video_report_path(report.video, report), method: :delete, class: 'btn btn-danger', data: { confirm: 'Czy na pewno chcesz usunąć to zgłoszenie?' } %>
+        </div>
+      </div>
+      <hr style="border: 2px solid; color: #c94bc9; width:100%; margin-top:10px">
+    <% end %>
+  </div>
+<% end %>
+
+
+<!-- Sekcja Zgłoszenie Filmu -->
+<% if (current_user.premium? || current_user.standard?) && @video.user != current_user %>
+  <% if @video.reports.exists?(user: current_user) %>
+  <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  <h2><span class="badge pill" style="background-color:#5a005a; font-size:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">Zgłoszenie filmu 🚨</span></h2>
+    <p style="color:#c3195d">Już zgłosiłeś ten film. Nie możesz kilka razy zgłosić tego samego filmu.</p>
+  <% else %>
+    <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+    <div>
+      <h2><span class="badge pill" style="background-color:#5a005a; font-size:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">Zgłoszenie filmu 🚨</span></h2>
+      <%= form_with(model: [@video, @report], local: true) do |form| %>
+        <div class="form-group d-flex align-items-center">
+          <%= form.text_area :reason, class: 'form-control', rows: 1, placeholder: 'Podaj powód zgłoszenia filmu...', style:'width:86%' %>
+          <%= form.submit 'Wyślij', class: 'btn', style:'margin-left:5px; background-color: #ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+
+
+<!-- Przyciski do powrotu -->
+  <% if current_user.premium? %>
+<hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  <div class="btn-group mt-1" role="group">
+    <%= link_to 'Powróć do przeglądania filmów 🔍', pind_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+    <%= link_to 'Przeglądaj swoje filmy 👨🏻‍💼', profp_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+  </div>
+<% elsif current_user.admin? %>
+  <div class="btn-group mt-1" role="group">
+    <%= link_to 'Powróć do przeglądania filmów 🔍', all_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+    <%= link_to 'Powróć do zgłoszeń 🚨', rep_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+      </div>
+<% else %>
+<hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+  <div class="btn-group mt-1" role="group">
+    <%= link_to 'Powróć do przeglądania filmów 🔍', uind_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+    <%= link_to 'Przeglądaj swoje filmy 👨🏻‍💼', prof_path, class: 'btn', style:'background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+  </div>
+<% end %>
+
+
+  
+</div>
+
+</div>
+</div>
+
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

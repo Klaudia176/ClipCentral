@@ -1,0 +1,48 @@
+pl:
+  activerecord:
+    models:
+      user: "Użytkownik"
+    attributes:
+      user:
+        email: "Adres e-mail"
+        password: "Hasło"
+        password_confirmation: "Powtórz hasło"
+        current_password: "Obecne hasło"
+        name: "Nazwa użytkownika"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "jest już zajęty"
+            password:
+              blank: "nie może być puste"
+              too_short: "jest za krótkie (minimum to %{count} znaków)"
+              must_contain: "musi zawierać przynajmniej jedną wielką literę, jedną małą literę, jedną cyfrę oraz jeden znak specjalny"
+            current_password:
+              invalid: "jest nieprawidłowe"
+              blank: "nie może być puste"
+            name:
+              blank: "nie może być pusta"
+          messages:
+            blank: " "
+            record_invalid: "Rekord jest nieprawidłowy: %{errors}"
+            not_saved: "Wystąpił błąd. Zmiany nie zostały zapisane"
+              
+  devise:
+    failure:
+      already_authenticated: "Jesteś już zalogowany"
+      inactive: "Twoje konto nie zostało jeszcze aktywowane"
+      invalid: "Niepoprawny adres e-mail lub hasło"
+      missing_password: "Hasło nie może być puste"
+      user:
+        not_found_in_database: "Niepoprawny adres e-mail lub hasło."
+    sessions:
+      signed_in: "Zalogowano pomyślnie"
+      signed_out: "Wylogowano pomyślnie"
+    registrations:
+      signed_up: "Zarejestrowano pomyślnie"
+      updated: "Twoje konto zostało pomyślnie zaktualizowane"
+    passwords:
+      send_instructions: "Instrukcje do resetowania hasła zostały wysłane na Twój adres e-mail"
+      updated: "Twoje hasło zostało pomyślnie zaktualizowane"

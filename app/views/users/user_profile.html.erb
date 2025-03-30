@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  </div>
+  <%= link_to "↩ Wróć do poprzedniej strony", "javascript:history.back()", class: "btn", style: "background-color: #ff69b4;" %>
+</div>
+</nav>
+
+
+<div id="cont" style="margin-top:80px;" class="page-transition">
+  <div style="width:30%; float:left; margin: 50px; height:300px; margin-bottom:30px; height:auto;">
+    <center>
+      <div class="card" style="width: 18rem; margin-bottom:100px; box-shadow: 2px 2px 20px #333; background-color:#ffcde3; border: 2px solid #FF10F0; border-radius:10px">
+        <% if @user.avatar.attached? %>
+          <%= image_tag(@user.avatar, alt: "Avatar", height: 280, class: "logo") %>
+        <% else %>
+          <%= image_tag("avatar.jpeg", alt: "Avatar", height: 280, class:"logo") %>
+        <% end %>
+        <div class="card-body">
+          <h5 class="card-title"><span class="badge rounded-pill" style="background-color:#ff69b4; font-size:20px; margin:5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">Profil użytkownika</span></h5>
+          <p class="card-text"><b>Nazwa użytkownika</b>: <%= @user.name %></p>
+          <p class="card-text">
+          <b>Typ konta</b>: <%= @user.role %>
+          <% if @user.role == 'standard' %>
+          ⭐
+          <% elsif @user.role == 'premium' %>
+            🌟
+          <% end %>
+          </p>
+          <p class="card-text"><b>Konto utworzone</b>: <%= @user.created_at.strftime("%Y-%m-%d") %></p>
+        </div>
+      </div>
+    </center>
+  </div>
+
+
+
+  <div style="width:50%; float:left; margin: 50px; height:300px; margin-bottom:100px; background-color:#C2DFFF; height: auto; border-radius:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+    <center>
+      <h2 style="font-weight:700; color: #430f58; margin-top:20px">Filmy użytkownika 🎬</h2>
+      <hr style="border: 2px solid; color: #ff69b4; width:100%; margin-top:10px">
+    </center>
+
+    <% if @user.videos.any? %>
+      <div class="row" style="width:100%; margin-top:50px">
+        <% @user.videos.each do |video| %>
+          <div class="card" style="border: 3px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); background-color: #ffcde3; width:45%; margin-right:5px; margin-left:31px; margin-top:20px; margin-bottom:20px">
+            <div class="card-body">
+              <center>
+                <h5 class="card-title"><%= video.title %></h5>
+                <p><%= video.description %></p>
+                <video width="80%" controls style="border-radius:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                  <source src="<%= rails_blob_path(video.uploaded_video, only_path: true) %>" type="video/mp4">
+                  Twoja przeglądarka nie wspiera elementu wideo.
+                </video>
+                <p class="card-text">
+                  <span class="badge rounded-pill" style="background-color:#5a005a; font-size:15px">Twórca: <strong><%= video.user.name %></strong></span><br>
+                  <span class="badge rounded-pill" style="background-color:#5a005a; font-size:13px">Data wstawienia: <strong><%= video.created_at.strftime("%Y-%m-%d %H:%M:%S") %></strong></span><br>
+                </p>
+                <%= link_to 'Komentarze', video_path(video), class: 'btn', style: 'color:#5a005a; border:1px solid #5a005a' %>
+              </center>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p><center>Nie ma jeszcze żadnych filmów.</center></p>
+    <% end %>
+  </div>
+</div>
+
+<footer>
+  <p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

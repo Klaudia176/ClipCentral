@@ -1,0 +1,157 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= pind_path %>">Strona główna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= profp_path %>">Mój profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= add_premium_path %>">Prześlij film</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= phelp_path %>">Pomoc</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown link
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>--!>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+<div style="width:50%; float:left; margin: 50px; height:300px; margin-bottom:30px">
+<div style="width:40%; float:left">
+<%= image_tag("logo.jfif", alt: "Logo", height: 300, class:"logo", style:"box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);") %>
+</div>
+<div style="width:50%; float:left">
+<% if user_signed_in? %>
+<h5 style="font-weight:700; color: #430f58; border-radius:20px; border: 2px solid #430f58; padding:5px; margin-left:70px">
+Witaj ponownie <%= current_user.name %> 📽️ </h5>
+<% end %>
+<p style="margin-top:40px; margin-left:70px; font-size:18px">
+Cieszymy się, że znów jesteś z nami! Jesteśmy pewni, że masz wiele do odkrycia i podzielenia się z naszą społecznością.</p>
+<hr style="border: 2px solid; color: #ff69b4; margin-left:40px; width:100%">
+<a type="button" class="btn" href="<%= profp_path %>" style="background-color: #f70776; font-size:20px; margin-left:150px; margin-top:10px; box-shadow: 2px 2px 20px #333;">👤 Mój profil</a>
+</div>
+</div>
+
+<div style="width:30%; float:left; margin-top:50px; margin-left:70px; height:300px; margin-bottom:30px">
+<center>
+<h2 style="font-weight:700; color: #430f58;">Twoje konto</h2>
+</center>
+
+<div class="card" style="width: 12rem; background-color: #ffcde3; float:left; margin-top:20px; border: 2px solid #FF10F0">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="font-size:35px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= current_user.videos.count %><span></p></center>
+    <p class="card-title" style="font-size:18px">Liczba dodanych filmów 📸
+    </p>
+  </div>
+</div>
+
+<div class="card" style="width: 12rem; height:167px;background-color: #ffcde3; float:left; margin-top:20px; border: 2px solid #FF10F0; margin-left:50px">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="margin-top:8px;font-size:25px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= current_user.role %><span></p></center>
+    <p class="card-title" style="font-size:18px; margin-top:10px">Status konta 🔒
+    </p>
+  </div>
+</div>
+
+</div>
+
+<hr style="margin-top:400px; position:absolute; width:80%; margin-left:150px; border: 2px solid; color: #ff69b4;">
+
+
+
+
+<div style="width:100%;float:left; margin:50; margin-bottom:100px; margin-top:50px">
+<center>
+<h2 style="font-weight:700; color: #430f58;">Najnowsze filmy od społeczności</h2>
+
+<div class="list-group" style="width:50rem; border-radius:30px; margin-top:20px; border: 2px solid #FF10F0;  box-shadow: 2px 2px 20px #333;">
+  <a href="<%= add_premium_path %>" class="list-group-item list-group-item-action" style="background-color:#C2DFFF">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">➕ Dodaj swój film!</h5>
+    </div>
+    <p class="mb-1">Masz coś, czym chciałbyś się podzielić? Stwórz nowy film i zaprezentuj go naszej społeczności!</p>
+    <small class="text-body-secondary">Kliknij na tekst, aby przejść do zakładki dodawania filmów.</small>
+  </a>
+</div>
+
+<div class="row" style="width:80%; margin-top:50px">
+  <% @videos.each do |video| %>
+    <div class="col-md-4 mb-4">
+      <div class="card" style="border: 3px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); background-color: #ffcde3;">
+        <div class="card-body">
+          <h5 class="card-title"><%= video.title %></h5>
+          <p><%= video.description %></p>
+          <video width="80%" controls style="border-radius:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+            <source src="<%= rails_blob_path(video.uploaded_video, only_path: true) %>" type="video/mp4">
+            Twoja przeglądarka nie wspiera elementu wideo.
+          </video>
+          <p class="card-text">
+            <span class="badge rounded-pill" style="background-color:#5a005a; font-size:15px">Twórca: <strong><%= video.user.name %></strong></span><br>
+            <span class="badge rounded-pill" style="background-color:#5a005a; font-size:13px">Data wstawienia: <strong><%= video.created_at.strftime("%Y-%m-%d %H:%M:%S") %></strong></span><br>
+          </p>
+          <%= link_to 'Komentarze', video_path(video), class: 'btn', style: 'color:#5a005a; border:1px solid #5a005a' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+</center>
+</div>
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+

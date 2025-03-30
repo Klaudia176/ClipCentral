@@ -1,0 +1,257 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= ind_path %>">Strona główna</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      O nas
+      </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= new_user_session_path %>">Logowanie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= help_path %>">Pomoc</a>
+      </li>
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown link
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>--!>
+    </ul>
+  </div>
+  <form class="d-flex" role="search" style="float:right" onsubmit="handleSearchSubmit(event)">
+  <input class="form-control me-2" type="search" id="search-input" style="width:250px" placeholder="Wyszukaj użytkowników..." aria-label="Szukaj">
+  <a href="<%= search_main_path %>" class="btn" id="search-button" style="background-color: #ff69b4" type="submit">Szukaj</a>
+</form>
+
+
+<script>
+  function handleSearchSubmit(event) {
+    event.preventDefault(); 
+
+    const searchQuery = document.getElementById('search-input').value;
+    
+    sessionStorage.setItem('searchQuery', searchQuery);
+
+    if (searchQuery.trim() !== "") {
+      window.location.href = `<%= search_main_path %>?query=${encodeURIComponent(searchQuery)}`;
+    }
+  }
+
+  document.getElementById('search-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      handleSearchSubmit(event);
+    }
+  });
+
+  window.addEventListener('pageshow', function(event) {
+    const searchInput = document.getElementById('search-input');
+    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+      sessionStorage.removeItem('searchQuery');
+      searchInput.value = '';
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedQuery = sessionStorage.getItem('searchQuery');
+    if (savedQuery) {
+      document.getElementById('search-input').value = savedQuery;
+    }
+  });
+</script>
+
+</div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header" style="border-bottom: 0.5px solid black;">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">O nas 🎥</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p> ClipCentral to dynamicznie rozwijająca się platforma wideo, która łączy ludzi z całego świata poprzez krótkie filmy. Naszą misją jest stworzenie przestrzeni, w której każdy może dzielić się swoimi pasjami, talentami i codziennymi chwilami. Wierzymy, że każdy ma coś wartościowego do pokazania, a nasze narzędzia i funkcje są zaprojektowane tak, aby to umożliwić w najprostszy sposób.</p>
+        <p>Jesteśmy zespołem entuzjastów technologii i kreatywnych twórców, którzy pracują nad tym, aby ClipCentral był miejscem pełnym pozytywnej energii i inspiracji. Dzięki naszemu zaangażowaniu w innowacje, zapewniamy użytkownikom najnowsze narzędzia do tworzenia i dzielenia się treściami wideo.</p>
+        <p>Dołącz do naszej społeczności i stań się częścią globalnego ruchu twórców, którzy inspirują innych każdego dnia. ClipCentral to nie tylko platforma - to miejsce, gdzie Twoje historie nabierają życia.</p>
+        <center><p style="color:#AA336A; font-size:20px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) "><b><i>ClipCentral - Twórz, inspiruj, łącz się!</b></i></p></center>  
+      </div>
+      <div class="modal-footer" style="border-top:0.5px solid #333">
+        <button type="button" class="btn" data-bs-dismiss="modal" style="background-color:#ff69b4;">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+<div style="width:40%; float:left; margin: 50px; height:550px; margin-bottom:30px">
+
+<%= image_tag("logo.jfif", alt: "Logo", height: 550, class:"logo") %>
+
+
+<% if user_signed_in? %>
+Witaj <% current_user.email %>
+<%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'nav-link active', data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+<% end %>
+
+</div>
+
+<div style="width:40%; float:left; margin-top:50px; margin-left:50px; height:550px; margin-bottom:30px">
+<center>
+<h3>Witaj w ClipCentral 😊<span class="badge text" style="background-color:#ff69b4; margin-top:10px">Twojej platformie do dzielenia się filmami!</span></h3>
+</center>
+
+<p style="margin-top:10px">Ciesz się nieograniczonym dostępem do inspirujących, zabawnych i kreatywnych filmów od użytkowników z całego świata! ClipCentral to idealne miejsce, aby podzielić się swoimi talentami, pomysłami i chwilami z innymi.
+A wszystko to całkowicie za darmo.
+</p>
+
+<center>
+<div id="carouselExampleCaptions" class="carousel slide" style="width:350px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <%= image_tag("home.jfif", alt: "Logo", width:350, style:"border-radius: 10px;") %>
+      <div class="carousel-caption d-none d-md-block">
+        <p style="background-color: #FF69B4; border: 3px solid #FF69B4; border-radius:10px; box-shadow: 0 0 10px black;">Twórz, inspiruj i baw się z ClipCentral!</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag("home2.jfif", alt: "Logo", width:350, style:"border-radius: 10px;") %>
+      <div class="carousel-caption d-none d-md-block">
+      <p style="background-color: #FF69B4; border: 3px solid #FF69B4; border-radius:10px; box-shadow: 0 0 10px black;">ClipCentral to Twoje miejsce na krótkie filmy!</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag("home3.jfif", alt: "Logo", width:350, style:"border-radius: 10px;") %>
+      <div class="carousel-caption d-none d-md-block">
+      <p style="background-color: #FF69B4; border: 3px solid #FF69B4; border-radius:10px; box-shadow: 0 0 10px black;">Każdy moment wart jest uwiecznienia - zrób to tutaj!</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</center>
+
+</div>
+
+<div style="display: inline-block; width: 20%; margin: 50px; margin-bottom:100px; float:left">
+  <hr style="border: 2px solid; color: #ff69b4">
+ <span class="badge rounded-pill" style="background-color:#ff69b4; font-size:20px">❔ Jak zacząć?</span>
+  <hr style="border: 2px solid; color: #ff69b4">
+  <div class="card" style="width: 18rem; background-color: #ffcde3;">
+  <div class="card-body">
+    <h5 class="card-title"><b>Zarejestruj się 📝</b></h5>
+    <p class="card-text">Utwórz darmowe konto w kilka chwil.</p>
+    <a href="<%= reg_path %>" class="btn" style="background-color:#ff69b4;">Kliknij, aby się zarejestrować</a>
+  </div>
+</div>
+<hr style="border: 2px solid; color: #ff69b4">
+<div class="card" style="width: 18rem; background-color: #ffcde3;">
+  <div class="card-body">
+    <h5 class="card-title"><b>Prześlij swoje pierwsze wideo 🎬</b></h5>
+    <p class="card-text">Podziel się swoją kreatywnością z naszą społecznością.</p>
+  </div>
+</div>
+<hr style="border: 2px solid; color: #ff69b4">
+<div class="card" style="width: 18rem; background-color: #ffcde3;">
+  <div class="card-body">
+    <h5 class="card-title"><b>Odkrywaj 👁️‍🗨️</b></h5>
+    <p class="card-text">Przeglądaj filmy innych użytkowników, komentuj i nawiązuj nowe znajomości.</p>
+  </div>
+</div>
+
+<hr style="border: 2px solid; color: #ff69b4">
+
+<div class="card mb-3" style="width: 30rem; border: 2px solid #F433FF; margin-top:50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  background-color: #ffcde3;">
+  <div class="card-header" style="font-size:30px">📷</div>
+  <div class="card-body">
+    <p5 class="card-title" style="font-size:17px">Nie czekaj! Dołącz do ClipCentral już dziś i zacznij dzielić się swoimi chwilami z całym światem. Razem możemy tworzyć coś niesamowitego 🥰</p>
+  </div>
+</div>
+
+<div class="card mb-3" style="width: 30rem; border: 2px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  background-color: #ffcde3;">
+    <h4 class="card-header">🛈 FAQ</h4>
+    <div class="card-body">
+    <p class="card-text" style="font-size:17px">Jeśli masz jakieś wątpliwości przejdź do zakładki Pomoc, w której znajdziesz odpowiedzi na najczęściej zadawane pytania oraz kontakt do nas.</p>
+    <a href="<%= help_path %>" class="btn" style="background-color:#ff69b4;">Kliknij, aby przejść do zakładki Pomoc</a>
+  </div>
+</div>
+
+</div>
+
+<div style="display: inline-block; width: 60%; margin-left:180px; float:left; margin-bottom:100px; margin-top:85px">
+<center><span class="badge rounded-pill" style="background-color:#ff69b4; font-size:20px">Dlaczego warto do nas dołączyć?</span>
+
+<div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
+  <div class="col">
+    <div class="card" style="background-color: #d552d5; box-shadow:0 20px 30px rgba(0, 0, 0, 0.4); width:17.9rem; margin-left:100px">
+      <%= image_tag("landscape.jfif", alt: "Logo", width:285) %>
+      <div class="card-body">
+        <h5 class="card-title">Łatwe przesyłanie filmów</h5>
+        <p class="card-text">W kilka prostych kroków możesz zamieścić swoje wideo i podzielić się nim z naszą społecznością. Twórz, edytuj i publikuj bez wysiłku.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="background-color: #d552d5; box-shadow:0 20px 30px rgba(0, 0, 0, 0.4); width:17.9rem; height:31rem; margin-right:100px">
+      <%= image_tag("landscape2.jfif", alt: "Logo", width:285) %>
+      <div class="card-body">
+        <h5 class="card-title">Pobieraj treści</h5>
+        <p class="card-text">Podoba Ci się film? Pobierz go i oglądaj, kiedy tylko chcesz!</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="background-color: #d552d5; box-shadow:0 20px 30px rgba(0, 0, 0, 0.4); width:17.9rem; height:31rem; margin-left:100px">
+      <%= image_tag("landscape3.jfif", alt: "Logo", width:285) %>
+      <div class="card-body">
+        <h5 class="card-title">Komentarze i interakcje</h5>
+        <p class="card-text">Komentuj filmy, dziel się swoimi opiniami i nawiązuj nowe znajomości. Twórz aktywną społeczność wokół swoich ulubionych treści.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="background-color: #d552d5; box-shadow:0 20px 30px rgba(0, 0, 0, 0.4); width:17.9rem; height:31rem; margin-right:100px">
+      <%= image_tag("landscape4.jfif", alt: "Logo", width:285) %>
+      <div class="card-body">
+        <h5 class="card-title">Bezpieczne i przyjazne środowisko</h5>
+        <p class="card-text">Nasz zespół dba o to, aby ClipCentral było miejscem, gdzie każdy może czuć się bezpiecznie i komfortowo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</center>
+</div>
+
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

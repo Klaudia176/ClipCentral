@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= uind_path %>">Strona główna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= prof_path %>">Mój profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= adm_path %>">Prześlij film</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="<%= prem_path %>">Premium</a>
+    </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= uhelp_path %>">Pomoc</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown link
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>--!>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+
+<div style="width:40%; float:left; margin: 50px; height:550px; margin-bottom:30px">
+
+<%= image_tag("pro.jpeg", alt: "Logo", height: 500, class:"logo", style: "border-radius:100px; margin-left:30px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);") %>
+
+</div>
+
+<div style="width:45%; float:left; margin: 50px; height: 550px; margin-bottom:30px; margin-top:5px">
+
+<h2 style="font-weight:700; color: #430f58;">Odkryj moc Premium na ClipCentral! 🚀</h2>
+<p style="margin-top:30px; font-size:18px">
+Zyskaj przewagę nad innymi twórcami i ciesz się wyjątkowymi funkcjami dostępnymi tylko dla użytkowników Premium. Rozwiń swój potencjał na ClipCentral i zrób krok w stronę sukcesu!
+</p>
+<hr style="border: 2px solid; color: #ff69b4; margin-left:0px; width:100%">
+<h4 style="font-weight:700; color: #430f58;">Dlaczego warto?</h4>
+
+<ul style="margin-top:30px">
+<li style="color:#f70776; font-size:18px"><span style="color: black"><b>Pobieraj swoje ulubione filmy:</b> Jako użytkownik Premium masz możliwość pobierania wybranych filmów bezpośrednio na swoje urządzenie, aby cieszyć się nimi offline.</span></li>
+<li style="color:#f70776; font-size:18px"><span style="color: black"><b>Promuj swoje treści:</b> Twoje filmy będą miały priorytet i będą wyświetlane na stronie głównej aplikacji, co zapewni im większą widoczność i szansę na dotarcie do szerszej publiczności.</span></li>
+</ul>
+<hr style="border: 2px solid; color: #ff69b4; margin-left:0px; width:100%">
+
+<span class="badge rounded-pill" style="background-color:#ff69b4; font-size:25px; margin:5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">💸 Tylko 10 zł / miesiąc!</span>
+<p style="margin-top:5px; font-size:18px">
+Za niewielką kwotę zyskasz pełen dostęp do wszystkich funkcji premium, które pomogą Ci wyróżnić się i osiągnąć więcej na ClipCentral. <b>Skontaktuj się z naszą administracją, aby uzyskać Premium</b> [ <a type="button" class="btn" href="<%= uhelp_path %>" style="background-color: #f70776; font-size:15px; margin-left:5px; ">Pomoc</a> ].</p>
+<hr style="border: 2px solid; color: #ff69b4; margin-left:0px; width:100%">
+</div>
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

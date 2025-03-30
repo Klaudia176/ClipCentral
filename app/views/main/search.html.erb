@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  </div>
+  <%= link_to "↩ Wróć do poprzedniej strony", "javascript:history.back()", class: "btn", style: "background-color: #ff69b4;" %>
+</div>
+</nav>
+    <style>
+        body {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-size: cover;
+        }
+        .login-container {
+            text-align: center;
+            background-color: #ffcde3;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+            border: 2px solid #F433FF;
+        }
+        .login-container p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+
+    <div class="login-container">
+    <div class="lock-icon">🔒</div>
+        <p>Zaloguj się, aby przeglądać użytkowników.</p>
+    </div>
+
+    <footer>
+    <p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+    </footer>

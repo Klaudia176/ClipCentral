@@ -1,0 +1,99 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= aind_path %>">Panel główny</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= usr_path %>">Użytkownicy</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Filmy
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="<%= all_path %>">Wszystkie filmy</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="<%= rep_path %>">Zgłoszenia</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= ahelp_path %>">Strefa pomocy</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="<%= set_path %>">Ustawienia strony</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+<div style="width:30%; float:left; margin: 50px; margin-left:100px; height:550px">
+<h1 class="badge text" style="background-color:#ff69b4; margin-top:30px; margin-bottom:20px; font-size:30px; box-shadow: 2px 2px 20px #333; margin:10px">Ustawienia strony ⚙️</h1>
+<p style="margin-top:50px; font-size:18px">
+Jako Administrator masz możliwość personalizacji wyglądu naszej strony! Do wyboru są dwa estetyczne tryby:
+<ul style="font-size:18px">
+    <li>☀️ Tryb jasny - domyślny styl w odcieniach różu, fioletu i błękitu.</li>
+    <li>🌙 Tryb ciemny - elegancka kompozycja szarości z subtelnymi akcentami różu.</li>
+</ul>
+<span style="font-size:18px">Możesz zmieniać te ustawienia w dowolnym momencie. Pamiętaj, że Twoje wybory będą widoczne dla wszystkich użytkowników strony, wpływając na ich ogólne doświadczenie.
+</span></p>
+</div>
+
+<div style="width:50%; float:left; margin-top:50px; margin-left:100px; margin-bottom:20px; height:550px">
+<center>
+<%= image_tag("setting.jpeg", height: 400, class:"logo", style:"margin-bottom:30px") %>
+
+<% if cookies[:moon] %>
+<%= button_to 'Przejdź do trybu jasnego!', sun_path, method: :get, class: 'btn', style: 'background-color:#C2DFFF; box-shadow: 2px 2px 20px #333; font-size:25px'%>
+<% else %>
+<%= button_to 'Przejdź do trybu ciemnego!', moon_path, method: :get, class: 'btn', style: 'background-color:#C2DFFF; box-shadow: 2px 2px 20px #333; font-size:25px;'%>
+<% end %>
+</center>
+</div>
+
+
+
+
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

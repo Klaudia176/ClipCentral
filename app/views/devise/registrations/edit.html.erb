@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  </div>
+</div>
+</nav>
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+
+<div style="width:40%; float:left; margin: 50px; margin-bottom:30px; height:auto; height:600px">
+<center>
+<h2 class="badge text" style="background-color:#ff69b4; margin-top:10px; font-size:30px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"> Ustawienia konta ⚙️</h2>
+</center>
+<div class="card" style="width: 38rem; background-color: #ffcde3; margin-left:5px; margin-top:10px; border: 2px solid #FF10F0; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+  <div class="card-body">
+    <h5 class="card-title">Zmiana hasła</h5>
+    <p class="card-text">Aby zmienić swoje hasło, musisz podać obecne hasło, a następnie wprowadzić nowe hasło oraz jego potwierdzenie. Upewnij się, że nowe hasło spełnia wymagania bezpieczeństwa, takie jak minimalna długość czy użycie cyfr i znaków specjalnych. ➜</p>
+  </div>
+</div>
+
+<div class="card" style="width: 38rem; background-color: #ffcde3; margin-left:5px; margin-top:10px; border: 2px solid #FF10F0; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+  <div class="card-body">
+    <h5 class="card-title">Usunięcie konta</h5>
+    <p class="card-text">Jeżeli chcesz usunąć swoje konto, możesz to zrobić poniżej. Pamiętaj jednak, że po usunięciu konta, wszystkie dane związane z Twoim profilem zostaną trwale usunięte i tej operacji nie będzie można cofnąć. Decyzję o usunięciu konta podejmij ostrożnie.</p>
+<%= button_to "Usuń konto 🗑️", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class:"btn btn-danger", style:"margin-left:200px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); font-weight:600"%>
+    </div>
+</div>
+
+<center>
+<% if current_user.premium? %>
+<%= link_to "Powróć do swojego profilu 👨🏻‍💼", profp_path, class:"btn", style:'margin-top:20px;font-size:20px;background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+<% else %>
+<%= link_to "Powróć do swojego profilu 👨🏻‍💼", prof_path, class:"btn", style:'margin-top:20px;font-size:20px;background-color:#ff69b4; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);' %>
+<% end %>
+</center>
+
+
+</div>
+<div style="width:40%; float:left; margin: 50px; margin-bottom:100px; height:auto; margin-left:80px; border:2px solid #a393eb; background-color:#d59bf6; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); margin-top:110px; padding:20px; border-radius:20px">
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "needs-validation", novalidate: true }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="form-group">
+    <%= f.label :email, "Adres e-mail", class: "form-label", style:"font-weight:600;font-size:16px"%>
+    <%= f.email_field :email,  autocomplete: "email", class: "form-control", placeholder: "Wprowadź swój adres e-mail" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="alert alert-warning">
+      Obecnie oczekujesz na potwierdzenie: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <div class="form-group" style="margin-top:10px">
+    <%= f.label :password, "Nowe hasło", class: "form-label", style:"font-weight:600;font-size:16px" %> 
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Wprowadź nowe hasło..." %>
+    <% if @minimum_password_length %>
+      <small class="form-text text-muted">
+      Hasło powinno zawierać przynajmniej 6 znaków, jedną wielką literę, jedną małą literę, jedną cyfrę oraz jeden znak specjalny.
+      </small>
+    <% end %>
+  </div>
+
+  <div class="form-group" style="margin-top:5px">
+    <%= f.label :password_confirmation, "Potwierdź nowe hasło", class: "form-label", style:"font-weight:600;font-size:16px" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Powtórz hasło..." %>
+  </div>
+
+  <div class="form-group" style="margin-top:10px">
+    <%= f.label :current_password, "Obecne hasło", class: "form-label", style:"font-weight:600;font-size:16px" %> 
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Wprowadź swoje obecne hasło..." %>
+  </div>
+
+  <div class="form-group" style="margin-top:10px">
+    <%= f.submit "Zaktualizuj hasło", class: "btn text-dark", style: "background-color: #f5c7f7; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); " %>
+  </div>
+<% end %>
+
+</div>
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+
+

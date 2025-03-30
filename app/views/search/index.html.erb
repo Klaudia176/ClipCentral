@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  </div>
+  <%= link_to "↩ Wróć do poprzedniej strony", "javascript:history.back()", class: "btn", style: "background-color: #ff69b4;" %>
+</div>
+</nav>
+
+
+<div id="cont" style="margin-top:30px; height:1500px" class="page-transition">
+  <center>
+    <span class="badge text" style="background-color:#ff69b4; margin-top:60px; font-size:30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">Wyniki wyszukiwania 🔎</span>
+  </center>
+
+  <div style="width:40%; float:left; margin: 50px; height:auto; margin-bottom:30px; height:600px;">
+    <center>
+      <h3 style="font-weight:700; color: #430f58; border:2px solid #430f58; border-radius:100px; padding:5px">Użytkownicy Standardowi ⭐</h3>
+      <div class="row">
+        <% if @standard_users.any? %>
+          <% @standard_users.each do |user| %>
+            <div class="card" style="width: 19rem; margin: 50px; margin-left:150px; background-color: #ff77ab; border: 3px solid #ff0080; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+            <%= image_tag(user.avatar, alt: "Logo", height: 250, class:"logo") %>
+              <div class="card-body">
+                <h5 class="card-title"><%= user.name %></h5>
+                <p class="card-text">Liczba filmów: <%= user.videos.count %></p>
+                <%= link_to 'Profil', userp_path(user.id), class: 'btn btn-light', style: 'background-color: #fafafa; border:2px solid #333'%>
+                                  <% if current_user.admin? %>
+                        <%= button_to 'Usuń', admin_path(user), method: :delete, onclick: 'return confirmDelete()', class: 'btn btn-danger', style:'margin-top:10px' %>
+                    <% end %>
+                </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p style="color: #333; font-size:25px; margin-top:30px">Brak użytkowników o podanej nazwie.</p>
+        <% end %>
+      </div>
+    </center>
+  </div>
+
+  <div style="width:40%; float:left; margin: 50px; height:auto; margin-bottom:30px; height:600px; margin-left:140px">
+    <center>
+      <h3 style="font-weight:700; color: #430f58; border:2px solid #430f58; border-radius:100px; padding:5px">Użytkownicy Premium 🌟</h3>
+      <div class="row">
+        <% if @premium_users.any? %>
+          <% @premium_users.each do |user| %>
+            <div class="card" style="width: 19rem; margin: 50px; margin-left:160px;  background-color: #ff77ab; border: 3px solid #ff0080; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+              <%= image_tag(user.avatar, alt: "Logo", height: 250, class:"logo") %>
+              <div class="card-body">
+                <h5 class="card-title"><%= user.name %></h5>
+                <p class="card-text">Liczba filmów: <%= user.videos.count %></p>
+                <%= link_to 'Profil', userp_path(user.id), class: 'btn btn-light', style: 'background-color: #fafafa; border:2px solid #333' %>
+                    <% if current_user.admin? %>
+                        <%= button_to 'Usuń', admin_path(user), method: :delete, onclick: 'return confirmDelete()', class: 'btn btn-danger', style:'margin-top:10px' %>
+                    <% end %>
+                </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p style="color: #333; font-size:25px; margin-top:30px">Brak użytkowników o podanej nazwie.</p>
+        <% end %>
+      </div>
+    </center>
+  </div>
+</div>
+
+
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+
+

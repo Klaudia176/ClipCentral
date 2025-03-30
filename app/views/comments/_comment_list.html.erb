@@ -1,0 +1,10 @@
+<% comments.each do |comment| %>
+    <div class="comment mb-2">
+      <strong><%= comment.user.email %>:</strong>
+      <p><%= comment.content %></p>
+      <%= button_to 'Usuń', video_comment_path(comment.video, comment), method: :delete, 
+                data: { confirm: 'Czy na pewno chcesz usunąć ten komentarz?' }, 
+                class: 'btn btn-danger btn-sm' %>
+    </div>
+  <% end %>
+  

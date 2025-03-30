@@ -1,0 +1,136 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= ind_path %>">Strona główna</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      O nas
+      </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= new_user_session_path %>">Logowanie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= help_path %>">Pomoc</a>
+      </li>
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown link
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>--!>
+    </ul>
+  </div>
+  <form class="d-flex" role="search" style="float:right">
+      <input class="form-control me-2" type="search" placeholder="Wyszukaj na stronie..." aria-label="Szukaj">
+      <button class="btn" style="background-color: #ff69b4" type="submit"><b>Szukaj</b></button>
+    </form>
+</div>
+</nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header" style="border-bottom: 0.5px solid black;">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">O nas 🎥</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p> ClipCentral to dynamicznie rozwijająca się platforma wideo, która łączy ludzi z całego świata poprzez krótkie filmy. Naszą misją jest stworzenie przestrzeni, w której każdy może dzielić się swoimi pasjami, talentami i codziennymi chwilami. Wierzymy, że każdy ma coś wartościowego do pokazania, a nasze narzędzia i funkcje są zaprojektowane tak, aby to umożliwić w najprostszy sposób.</p>
+        <p>Jesteśmy zespołem entuzjastów technologii i kreatywnych twórców, którzy pracują nad tym, aby ClipCentral był miejscem pełnym pozytywnej energii i inspiracji. Dzięki naszemu zaangażowaniu w innowacje, zapewniamy użytkownikom najnowsze narzędzia do tworzenia i dzielenia się treściami wideo.</p>
+        <p>Dołącz do naszej społeczności i stań się częścią globalnego ruchu twórców, którzy inspirują innych każdego dnia. ClipCentral to nie tylko platforma - to miejsce, gdzie Twoje historie nabierają życia.</p>
+        <center><p style="color:#AA336A; font-size:20px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) "><b><i>ClipCentral - Twórz, inspiruj, łącz się!</b></i></p></center>  
+      </div>
+      <div class="modal-footer" style="border-top:0.5px solid #333">
+        <button type="button" class="btn" data-bs-dismiss="modal" style="background-color:#ff69b4;">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="cont" style="margin-top:110px;" class="page-transition">
+<div style="width:100%; height:600px">
+<div class="card mb-3" style="width: 30rem; border: 2px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  background-color: #ffcde3; margin-left:500px">
+    <center><h4 class="card-header"><span class="badge rounded-pill" style="background-color:#ff69b4; font-size:20px">Dołącz do naszej społeczności! 📷</span></h4></center>
+    <div class="card-body">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+    
+      <div class="mb-3">
+        <%= f.label "Adres e-mail", class:"form-label" %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label "Nazwa użytkownika", class:"form-label" %><br />
+        <%= f.text_field :name, autofocus: true, class:"form-control" %>
+      </div>
+    
+      <div class="mb-3">
+        <%= f.label "Hasło",  class:"form-label" %>
+        <%= f.password_field :password, autocomplete: "new-password", class:"form-control"  %>
+         <div id="emailHelp" class="form-text">
+    Hasło powinno zawierać przynajmniej 6 znaków, jedną wielką literę, jedną małą literę, jedną cyfrę oraz jeden znak specjalny.</div>
+      </div>
+    
+      <div class="mb-3">
+        <%= f.label "Powtórz hasło", class:"form-label" %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
+      </div>
+
+      <div class="mb-3">
+      <center>
+        <%= f.submit "Zarejestruj się", class:"btn" , style:"background-color:#ff69b4;"%>
+        <%= link_to "Powrót do logowania", new_user_session_path, class:"btn" , style:"background-color:#ff69b4;"%></center>
+      </div>
+    <% end %>
+    
+
+  </div>
+</div>
+</div>
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #e7d1ff;">
+      <div class="modal-header" style="border-bottom: 0.5px solid black;">
+        <h1 class="modal-title fs-5" id="exampleModalLabel1">Zmiana hasła 🔑</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="mb-3">
+      <p>Wprowadź swój adres e-mail poniżej, a my wyślemy Ci nowe hasło. </p>
+      <label for="exampleFormControlInput1" class="form-label"><b>Adres e-mail</b></label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" style="margin-bottom:10px">
+      </div>
+        
+      </div>
+      <div class="modal-footer" style="border-top:0.5px solid #333">
+        <button type="submit" class="btn" style="background-color:#ff69b4;">Wyślij</button>
+        <button type="button" class="btn" data-bs-dismiss="modal" style="background-color:#ff69b4;">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "devise/shared/links" %>

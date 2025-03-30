@@ -1,0 +1,166 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= aind_path %>">Panel główny</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= usr_path %>">Użytkownicy</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Filmy
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="<%= all_path %>">Wszystkie filmy</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="<%= rep_path %>">Zgłoszenia</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= ahelp_path %>">Strefa pomocy</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="<%= set_path %>">Ustawienia strony</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+
+<div style="width:40%; float:left; margin: 50px;margin-bottom:30px; margin-left:140px">
+<% if user_signed_in? %>
+<h3 style="font-weight:700; color: #430f58;;">😄 Witaj w Panelu Administracyjnym <center><span class="badge text" style="background-color:#ff69b4; margin-top:30px; font-size:30px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= current_user.name %></center></span></h3>
+<% end %>
+<p style="margin-top:50px; font-size:18px">
+Nasza aplikacja wideo umożliwia użytkownikom zamieszczanie, oglądanie i komentowanie filmów. Użytkownicy premium mają dodatkowe możliwości, takie jak pobieranie filmów i promowanie swoich treści. Jako administrator, masz pełną kontrolę nad treściami i użytkownikami na stronie.
+</p>
+
+</div>
+
+
+<div style="width:40%; float:left; margin-top:50px; margin-left:100px; margin-bottom:30px">
+
+<%= image_tag("admin.jfif", height: 350, class:"logo") %>
+
+</div>
+
+<hr style="margin-top:480px; position:absolute; width:80%; margin-left:150px; border: 2px solid; color: #ff69b4; margin-bottom:100px">
+
+<div style="width: 50%; margin-left:30px; float:left; margin-bottom:100px;margin-top:80px;">
+<center>
+<h3 style="font-weight:700; color: #430f58;">Statystyki</h3>
+</center>
+<br>
+<div class="card" style="width: 18rem; background-color: #ffcde3; float:left; margin-left:60px; border: 2px solid #FF10F0">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="font-size:40px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= User.count %><span></p></center>
+    <p class="card-title" style="font-size:20px">Liczba zarejestrowanych użytkowników 👥
+    </p>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem; background-color: #ffcde3; float:right; margin-right:60px; border: 2px solid #FF10F0">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="font-size:40px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= Video.count %><span></p></center>
+    <p class="card-title" style="font-size:20px">Liczba wstawionych filmów 🎥
+    </p>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem; background-color: #ffcde3; float:left; margin-left:60px; margin-top:40px; border: 2px solid #FF10F0">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="font-size:40px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= Report.count %><span></p></center>
+    <p class="card-title" style="font-size:20px">Liczba zgłoszonych filmów do moderacji 🚨
+    </p>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem; background-color: #ffcde3; float:right; margin-right:60px; margin-top:40px; height:180px; border: 2px solid #FF10F0">
+  <div class="card-body">
+  <center><p class="card-text"><span class="badge rounded-pill" style="font-size:40px;background-color:#c94bc9; margin-bottom:10px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"><%= Comment.count %><span></p></center>
+    <p class="card-title" style="font-size:20px">Liczba komentarzy 💬
+    </p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div style="width: 30%; margin-left:70px; float:left; margin-bottom:200px;margin-top:80px;">
+
+<center>
+<h3 style="font-weight:700; color: #430f58;">Szybki dostęp</h3></center>
+<p style="margin-left:10px; margin-top:30px">Skorzystaj z poniższych szybkich linków, aby szybko przejść do najczęściej używanych funkcji administracyjnych:</p>
+
+    <div class="list-group" style="margin-top:20px; width:480px; border: 1px solid #333;  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.3);">
+    <a href=" <%= usr_path %> " class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Usuń użytkownika</h5>
+        <small class="text-body-secondary">Naciśnij na tekst, aby przejść dalej</small>
+      </div>
+      <p class="mb-1">Kliknij, aby przejść do sekcji zarządzania użytkownikami.</p>
+    </a>
+    <a href="<%= rep_path %>" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Usuń film</h5>
+      </div>
+      <p class="mb-1">Przejdź do sekcji zgłoszonych filmów.</p>
+    </a>
+    <a href="<%= all_path %>" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Komentarze</h5>
+    </div>
+    <p class="mb-1">Przeglądaj komentarze wraz z funkcją ich usuwania.</p>
+  </a>
+  </div>
+
+</div>
+
+<hr style="margin-top:1000px; position:absolute; width:80%; margin-left:150px; border: 2px solid; color: #ff69b4;">
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

@@ -1,0 +1,10 @@
+<% if resource.errors.any? %>
+  <div id="error_explanation" data-turbo-cache="false">
+<h2 class="badge text-bg-danger" style="font-size: 15px"> Wystąpił błąd. Zmiany nie zostały zapisane.</h2>
+    <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

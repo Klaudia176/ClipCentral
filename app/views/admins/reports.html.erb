@@ -1,0 +1,123 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= aind_path %>">Panel główny</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= usr_path %>">Użytkownicy</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Filmy
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="<%= all_path %>">Wszystkie filmy</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="<%= rep_path %>">Zgłoszenia</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= ahelp_path %>">Strefa pomocy</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="<%= set_path %>">Ustawienia strony</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="cont" style="margin-top:80px; margin-bottom:100px" class="page-transition">
+
+<center><h2 style="font-weight:700; color: #430f58;">Zgłoszone filmy</h2>
+
+<hr style="border: 2px solid; color: #ff69b4; margin-left:0px; width:90%">
+
+</center>
+
+<div style="width:40%; float:left; margin-bottom:30px; margin-left:150px">
+Na tej stronie możesz przeglądać filmy zgłoszone przez użytkowników, zarządzać zgłoszeniami i podjąć odpowiednie działania. Możesz zobaczyć szczegóły każdego zgłoszenia, w tym użytkownika, który je zgłosił oraz powód zgłoszenia. To Ty decydujesz, czy zgłoszony film powinien zostać usunięty!</div>
+<div style="width:40%; float:left; margin-bottom:30px; margin-left:50px">
+
+<ul style="margin-top:30px">
+<li style="color:#f70776; font-size:18px"><span style="color: black"><b>Przeglądaj i zarządzaj wszystkimi filmami</b></span></li>
+<li style="color:#f70776; font-size:18px"><span style="color: black"><b>Monitoruj komentarze i usuwaj te, które łamią zasady</b></span></li>
+</ul>
+
+</div>
+
+
+<center>
+<hr style="border: 2px solid; color: #ff69b4; margin-left:0px; width:90%">
+<div class="row" style="width:80%;">
+  <% @reports.each do |report| %>
+    <div class="col-md-4 mb-4">
+      <div class="card" style="border: 2px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  background-color: #ffcde3; height:750px">
+        <div class="card-body">
+          <h5 class="card-title"><span class="badge rounded-pill" style="background-color:#5a005a; font-size:20px"><%= report.video.title %></span></h5>
+          <video width="80%" controls style="border-radius:20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+            <source src="<%= rails_blob_path(report.video.uploaded_video, only_path: true) %>" type="video/mp4">
+            Twoja przeglądarka nie wspiera elementu wideo.
+          </video>
+          <p class="card-text">
+          <ul class="list-group" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); border: 0.5px solid #F433FF; ">
+            <li class="list-group-item" style="background-color:#C2DFFF; border: 0.5px solid #F433FF"><b>Powód</b>: <%= report.reason %></li>
+            <li class="list-group-item" style="background-color:#C2DFFF; border: 0.5px solid #F433FF"><b>Zgłoszony przez</b>: <%= report.user.name %></li>
+          </ul>
+          </p>
+          <%= link_to 'Zarządzaj filmem', video_path(report.video), class: 'btn', style: 'color:#5a005a; border:1px solid #5a005a' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+
+</center>
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>

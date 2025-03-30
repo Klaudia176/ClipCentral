@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= pind_path %>">Strona główna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= profp_path %>">Mój profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= add_premium_path %>">Prześlij film</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="<%= phelp_path %>">Pomoc</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown link
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </li>--!>
+    </ul>
+  </div>
+  <form class="d-flex" role="search" style="float:right">
+      <input class="form-control me-2" type="search" placeholder="Wyszukaj na stronie..." aria-label="Szukaj">
+      <button class="btn" style="background-color: #ff69b4" type="submit"><b>Szukaj</b></button>
+    </form>
+</div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="cont" style="margin-top:80px" class="page-transition">
+
+<div style="width:45%; float:left; margin: 50px; height:550px; margin-bottom:30px; margin-top:25px">
+<center>
+<h2 style="font-weight:700; color: #430f58;">Dodaj nowy film 🎬</h2></center>
+<p style="margin-top:30px; font-size:18px">
+Podziel się swoją twórczością z naszą społecznością! Wypełnij poniższe pola, aby dodać nowy film do ClipCentral. Upewnij się, że tytuł i opis dobrze oddają to, co chcesz przekazać.
+</p>
+
+
+<div class="card mb-3" style="width:80%; border: 2px solid #F433FF; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  background-color: #ffcde3; margin-left:60px">
+  <div class="card-header">Podziel się tym, co dla Ciebie ważne! ✨ <small>Pamietaj</small></div>
+  <div class="card-body">
+<form>
+<div class="form-group">
+    <label for="title"><b>Tytuł</b></label>
+    <input type="text" class="form-control" id="title"  required>
+    <div id="emailHelp" class="form-text">Wpisz chwytliwy tytuł, który przyciągnie uwagę widzów.</div>
+</div>
+<div class="form-group">
+    <label for="description"><b>Opis filmu</b></label>
+    <textarea class="form-control" id="description" rows="2"  required></textarea>
+    <div id="emailHelp" class="form-text">Opisz, o czym jest Twój film. Dodaj wszelkie informacje, które mogą zainteresować widzów i zachęcić ich do obejrzenia.</div>
+</div>
+<div class="form-group" style="margin-top:10px">
+    <label class="btn" for="videoFile" style="background-color:#5a005a; color:white; box-shadow: 0 10px 30px #FF33AA;">
+        Wybierz plik
+    </label>
+    <input type="file" class="form-control-file" id="videoFile" style="display:none" required>
+    <span id="file-name" style="margin-left: 10px;">Nie wybrano pliku</span>
+</div>
+
+<button type="submit" class="btn" style="margin-top:10px; background-color:#c94bc9; font-size:20px; ">Wyślij</button>
+</form> 
+  
+</div>
+</div>
+
+</div>
+
+<div style="width:40%; float:left; margin: 50px; height: 550px; margin-bottom:30px; margin-top:80px; margin-left:70px">
+
+<%= image_tag("add_movie.jpeg", height: 500, class:"logo", style: "margin-left:30px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);") %>
+
+</div>
+
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('videoFile').addEventListener('change', function() {
+            const fileName = this.files && this.files.length > 0 ? this.files[0].name : 'Nie wybrano pliku';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    });
+</script>

@@ -1,0 +1,145 @@
+<nav class="navbar navbar-expand-lg fixed-top" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); ">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+    <%= image_tag("navbar.png", alt: "Logo",  width: 40, height: 40) %>
+    <b><span style="padding-top:40px">ClipCentral</span></b>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="<%= aind_path %>">Panel główny</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= usr_path %>">Użytkownicy</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Filmy
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="<%= all_path %>">Wszystkie filmy</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="<%= rep_path %>">Zgłoszenia</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="<%= ahelp_path %>">Strefa pomocy</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link active" href="<%= set_path %>">Ustawienia strony</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Wyloguj
+      </a>
+      </li>
+    </ul>
+  </div>
+  <%= search_form_for @users_search, url: search_path, method: :get, html: { class: "d-flex", role: "search", style: "float:right" } do |f| %>
+    <%= f.text_field :name_cont, placeholder: "Wyszukaj użytkowników...", class: "form-control me-2", type: "search", aria: { label: "Szukaj" }, style:"width:250px;" %>
+    <%= f.submit "Szukaj", class: "btn", style: "background-color: #ff69b4;" do %>
+      <b>Szukaj</b>
+    <% end %>
+  <% end %>
+</div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy na pewno chcesz się wylogować?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <center>
+            <% if user_signed_in? %>
+            <%= button_to 'Wyloguj się', destroy_user_session_path, method: :delete, class: 'btn', style:"background-color:#c94bc9; font-size:20px", data: { confirm: "Czy na pewno chcesz się wylogować?" } %>        
+            <% end %>
+      </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="cont" style="margin-top:80px;" class="page-transition">
+<div style="width:100%; height:650px;">
+<center><h2 style="font-weight:700; color: #430f58;">Wszyscy użytkownicy</h2>
+
+<span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Kliknij na ikonkę, aby dowiedzieć się więcej!">
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+   <%= image_tag("question_mark.jfif", height: 100, style:"border-radius:30px") %>
+</button>
+</span>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align:justify">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #ffcde3;">
+      <div class="modal-header" style="border-bottom: 0.5px solid black;">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Witaj w sekcji zarządzania użytkownikami</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      W tej zakładce znajdziesz listę wszystkich zarejestrowanych użytkowników Twojej aplikacji. Możesz przeglądać szczegóły kont użytkowników, edytować ich informacje oraz usuwać konta, które są już nieaktualne lub zostały zgłoszone do usunięcia.
+      <p style="margin-top:10px"><b>Co możesz zrobić w tej sekcji:</b></p>
+      <i class="fas fa-check"></i> <b>Przeglądanie Użytkowników</b> - Sprawdź podstawowe informacje o każdym użytkowniku, takie jak imię, adres e-mail oraz status konta.</i><br>
+      <i class="fas fa-check"></i> <b>Usuwanie Użytkowników </b>- Jeśli chcesz usunąć konto użytkownika, kliknij na opcję „Usuń” obok jego danych. Pamiętaj, że usunięcie użytkownika jest operacją nieodwracalną, więc upewnij się, że decyzja jest dobrze przemyślana.</i>
+      <center><p style="color:#AA336A; font-size:20px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) "><b><i>Zespół ClipCentral </i>📷</b></p></center>
+        </div>
+      <div class="modal-footer" style="border-top:0.5px solid #333">
+        <button type="button" class="btn" data-bs-dismiss="modal" style="background-color:#ff69b4;">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<table class="table table-sm table-info" style="width:80%; margin-top:30px;  box-shadow: 2px 2px 20px #333; ">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Nickname</th>
+      <th scope="col">Rola</th>
+      <th scope="col">Utworzony</th>
+      <th scope="col">Akcja</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each_with_index do |user, index| %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= user.email %></td>
+        <td><%= user.name %></td>
+        <td><%= user.role %></td>
+        <td><%= user.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        <td>
+ <%= button_to 'Usuń', admin_path(user), method: :delete, onclick: 'return confirmDelete()', class: 'btn btn-outline-secondary' %>       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+</center>
+</div>
+</div>
+<footer>
+<p><b>Copyright &copy 2024 </b> ClipCentral. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    })
+});
+</script>
